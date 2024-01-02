@@ -20,10 +20,24 @@ const getOrganigrama = (request, response) => {
     });
 };
 
+
 //ruta
 app.route("/organigrama")
 .get(getOrganigrama);
 
+const getOrganigramaById = (request, response) => {
+    const id = request.params.id;
+    connection.query("SELECT * FROM nodes WHERE id = ?", 
+    [id],
+    (error, results) => {
+        if(error)
+            throw error;
+        response.status(200).json(results);
+    });
+}
+
+app.route("/organigrama/:id")
+.get(getOrganigramaById);
 
 const postOrganigrama = (request, response) => {
     const {name, parent_id} = request.body;
